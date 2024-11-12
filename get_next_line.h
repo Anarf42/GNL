@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:25 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/06 02:49:57 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/12 15:26:34 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
