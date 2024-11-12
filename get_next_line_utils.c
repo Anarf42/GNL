@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:04 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/04 16:28:08 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/06 02:48:05 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*ft_strdup(const char *str)
 	newstr[i] = '\0';
 	return (newstr);
 }
+
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*res;
