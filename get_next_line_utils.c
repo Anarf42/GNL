@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:04 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/14 15:57:06 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:07:11 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ size_t	ft_strlen(char *str)
 		i++;
 	return (i);
 }
- 
+
 char	*ft_strchr(char *str, int c)
 {
 	int	i;
 
 	i = 0;
 	if (!str)
-		return NULL;
+		return (NULL);
 	while (str[i] && (str[i] != (char)c))
 		i++;
 	if (str[i] == (char)c)
@@ -37,21 +37,22 @@ char	*ft_strchr(char *str, int c)
 		return (NULL);
 }
 
-
 char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	c;
-	int		len;
+	size_t	len;
 	char	*res;
 
-	i = 0;
-	if (!s1 || !s2)
-		return (NULL);
+	if (!s1)
+		s1 = "";
+	if (!s2)
+		s2 = "";
 	len = ft_strlen(s1) + ft_strlen(s2);
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);
+	i = 0;
 	while (s1[i])
 	{
 		res[i] = s1[i];
@@ -63,26 +64,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	res[i] = '\0';
 	return (res);
 }
-
-char	*ft_strdup(const char *s)
-{
-	size_t	i;
-	char	*newstr;
-
-	i = 0;
-	while (s[i])
-		i++;
-	newstr = (char *)malloc(sizeof(char) * (i + 1));
-	if (!newstr)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		newstr[i] = s[i];
-		i++;
-	}
-	newstr[i] = '\0';
-	return (newstr);
-}
-
-
