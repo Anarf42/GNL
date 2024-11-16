@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:10 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/16 18:06:05 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/16 21:49:09 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ lldb ./a.out prueba.txt
 static	char	*ft_read(int fd, char *storage)
 {
 	int		byte_read;
-	char	buffer[BUFFER_SIZE];
+	char	buffer[BUFFER_SIZE + 1];
 	char	*tmp;
+	int	i;
 
 	byte_read = 1;
 	if (storage == NULL)
@@ -40,6 +41,12 @@ static	char	*ft_read(int fd, char *storage)
 	while (ft_strchr(storage, '\0') && byte_read)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
+		i = BUFFER_SIZE;
+		while (i >= byte_read)
+		{
+			buffer[i] = '\0';
+			i--;
+		}
 		if (byte_read < 0)
 		{
 			free(storage);
