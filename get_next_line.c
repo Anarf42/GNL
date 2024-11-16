@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:10 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/16 21:49:09 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/16 22:45:13 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static	char	*ft_read(int fd, char *storage)
 			return (NULL);
 		storage[0] = '\0';
 	}
+	//buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	while (ft_strchr(storage, '\0') && byte_read)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
@@ -53,7 +54,10 @@ static	char	*ft_read(int fd, char *storage)
 			return (NULL);
 		}
 		if (byte_read == 0)
+		{
+			//free (buffer);
 			return (storage);
+		}
 		tmp = ft_strjoin(storage, buffer);
 		if (!tmp)
 		{
@@ -63,6 +67,7 @@ static	char	*ft_read(int fd, char *storage)
 		free(storage);
 		storage = tmp;
 	}
+	//free (buffer);
 	return (storage);
 }
 

@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:25 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/16 21:52:14 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/16 22:28:35 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <string.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000000
+#  define BUFFER_SIZE 1
 # endif
 
 char	*ft_strjoin(char *s1, char *s2);
