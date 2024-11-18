@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:10 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/16 22:45:13 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/18 23:42:11 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ lldb ./a.out prueba.txt
 static	char	*ft_read(int fd, char *storage)
 {
 	int		byte_read;
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 	char	*tmp;
-	int	i;
 
-	byte_read = 1;
 	if (storage == NULL)
 	{
 		storage = malloc(1);
@@ -38,36 +36,36 @@ static	char	*ft_read(int fd, char *storage)
 			return (NULL);
 		storage[0] = '\0';
 	}
-	//buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	while (ft_strchr(storage, '\0') && byte_read)
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+        return (NULL);
+	byte_read = 1;
+	while (byte_read)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
-		i = BUFFER_SIZE;
-		while (i >= byte_read)
-		{
-			buffer[i] = '\0';
-			i--;
-		}
 		if (byte_read < 0)
 		{
+			free(buffer);
 			free(storage);
 			return (NULL);
 		}
+		buffer[byte_read] = '\0';
 		if (byte_read == 0)
 		{
-			//free (buffer);
+			free (buffer);
 			return (storage);
 		}
 		tmp = ft_strjoin(storage, buffer);
 		if (!tmp)
 		{
+			free(buffer);
 			free(storage);
 			return (NULL);
 		}
 		free(storage);
 		storage = tmp;
 	}
-	//free (buffer);
+	free (buffer);
 	return (storage);
 }
 
@@ -104,7 +102,6 @@ static	char	*reset_static(char *storage)
 {
 	int		i;
 	int		l;
-	int		j;
 	char	*new_storage;
 	char	*tmp;
 
@@ -129,9 +126,9 @@ static	char	*reset_static(char *storage)
 		free(storage);
 		return (NULL);
 	}
-	j = 0;
+	i = 0;
 	while (*tmp++)
-		new_storage[j++] = *tmp;
+		new_storage[i++] = *tmp;
 	new_storage[l] = '\0';
 	free (storage);
 	return (new_storage);
