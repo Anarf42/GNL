@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:10 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/18 23:42:11 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/19 23:14:28 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,6 @@ static	char	*ft_read(int fd, char *storage)
 	char	*buffer;
 	char	*tmp;
 
-	if (storage == NULL)
-	{
-		storage = malloc(1);
-		if (!storage)
-			return (NULL);
-		storage[0] = '\0';
-	}
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
         return (NULL);
@@ -52,8 +45,8 @@ static	char	*ft_read(int fd, char *storage)
 		buffer[byte_read] = '\0';
 		if (byte_read == 0)
 		{
-			free (buffer);
-			return (storage);
+			free(buffer);
+			return(storage);
 		}
 		tmp = ft_strjoin(storage, buffer);
 		if (!tmp)
@@ -65,7 +58,7 @@ static	char	*ft_read(int fd, char *storage)
 		free(storage);
 		storage = tmp;
 	}
-	free (buffer);
+	free(buffer);
 	return (storage);
 }
 
@@ -98,7 +91,7 @@ static	char	*extract_line(char *storage)
 	return (line);
 }
 
-static	char	*reset_static(char *storage)
+static	char	*reset_static(char *storage) 
 {
 	int		i;
 	int		l;
@@ -116,22 +109,15 @@ static	char	*reset_static(char *storage)
 		i++;
 	l = strlen(storage) - i;
 	if (l <= 0 && storage[0] == '\0')
-	{
-		free(storage);
-		return (NULL);
-	}
+		return (free(storage), NULL);
 	new_storage = (char *)malloc(sizeof(char) * l + 1);
 	if (!new_storage)
-	{
-		free(storage);
-		return (NULL);
-	}
+		return (free(storage), NULL);
 	i = 0;
 	while (*tmp++)
 		new_storage[i++] = *tmp;
 	new_storage[l] = '\0';
-	free (storage);
-	return (new_storage);
+	return (free(storage), new_storage);
 }
 
 char	*get_next_line(int fd)
@@ -141,6 +127,12 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if (!storage)
+	{
+		if (!(storage = malloc(1)))
+			return (NULL);
+		storage[0] = '\0';
+	}
 	storage = ft_read(fd, storage);
 	if (!storage)
 		return (NULL);
@@ -153,9 +145,6 @@ char	*get_next_line(int fd)
 	}
 	storage = reset_static(storage);
 	if (!storage)
-	{
-		free(line);
-		return (NULL);
-	}
+		return (free(line), NULL);
 	return (line);
 }
