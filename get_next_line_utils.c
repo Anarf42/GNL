@@ -6,7 +6,7 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:04 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/18 12:59:35 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/27 01:54:43 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,19 @@ char	*ft_strjoin(char *s1, char *s2)
 		res[i++] = s2[c++];
 	res[i] = '\0';
 	return (res);
+}
+
+char	*inicilize_storage(char *storage)
+{
+	storage = malloc(1);
+	if (!storage)
+		return (NULL);
+	storage[0] = '\0';
+	return (storage);
+}
+
+char	*ft_reset_error(char *content)
+{
+	free(content);
+	return (NULL);
 }

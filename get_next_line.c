@@ -6,22 +6,25 @@
 /*   By: anruiz-d <anruiz-d@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 19:40:10 by anruiz-d          #+#    #+#             */
-/*   Updated: 2024/11/19 23:14:28 by anruiz-d         ###   ########.fr       */
+/*   Updated: 2024/11/27 01:55:53 by anruiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 /*
-inicializar buffer linea 34-35
-	//if (buffer == NULL)
-		//memset(buffer, 0, BUFFER_SIZE);
-*/
-/*
 gcc -fsanitize=address -g -o a.out *.c
-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=all --verbose ./a.out prueba.txt
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes 
+--errors-for-leak-kinds=all --verbose ./a.out prueba.txt
 lldb ./a.out prueba.txt
 */
+
+static	char	*ft_read_error(char *buffer, char *storage)
+{
+	free(buffer);
+	free(storage);
+	return (NULL);
+}
 
 static	char	*ft_read(int fd, char *storage)
 {
@@ -31,30 +34,19 @@ static	char	*ft_read(int fd, char *storage)
 
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-        return (NULL);
+		return (NULL);
 	byte_read = 1;
 	while (byte_read)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read < 0)
-		{
-			free(buffer);
-			free(storage);
-			return (NULL);
-		}
+			return (ft_read_error(buffer, storage));
 		buffer[byte_read] = '\0';
 		if (byte_read == 0)
-		{
-			free(buffer);
-			return(storage);
-		}
+			return (free (buffer), storage);
 		tmp = ft_strjoin(storage, buffer);
 		if (!tmp)
-		{
-			free(buffer);
-			free(storage);
-			return (NULL);
-		}
+			return (ft_read_error(buffer, storage));
 		free(storage);
 		storage = tmp;
 	}
@@ -81,43 +73,38 @@ static	char	*extract_line(char *storage)
 	line = (char *)malloc((i + 1) * sizeof(char));
 	if (!line)
 		return (NULL);
-	j = 0;
-	while (j < i)
-	{
+	j = -1;
+	while (j++ < i)
 		line[j] = storage[j];
-		j++;
-	}
 	line[i] = '\0';
 	return (line);
 }
 
-static	char	*reset_static(char *storage) 
+static	char	*reset_static(char *storage)
 {
 	int		i;
 	int		l;
 	char	*new_storage;
 	char	*tmp;
 
-	i = 0;
 	tmp = storage;
 	while (*tmp && *tmp != '\n')
-	{
-		i++;
 		tmp++;
-	}
+	i = tmp - storage;
 	if (*tmp == '\n')
 		i++;
-	l = strlen(storage) - i;
+	l = ft_strlen(storage) - i;
 	if (l <= 0 && storage[0] == '\0')
-		return (free(storage), NULL);
+		return (ft_reset_error(storage));
 	new_storage = (char *)malloc(sizeof(char) * l + 1);
 	if (!new_storage)
-		return (free(storage), NULL);
+		return (ft_reset_error(storage));
 	i = 0;
 	while (*tmp++)
 		new_storage[i++] = *tmp;
 	new_storage[l] = '\0';
-	return (free(storage), new_storage);
+	free(storage);
+	return (new_storage);
 }
 
 char	*get_next_line(int fd)
@@ -128,11 +115,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!storage)
-	{
-		if (!(storage = malloc(1)))
-			return (NULL);
-		storage[0] = '\0';
-	}
+		storage = inicilize_storage(storage);
 	storage = ft_read(fd, storage);
 	if (!storage)
 		return (NULL);
@@ -145,6 +128,6 @@ char	*get_next_line(int fd)
 	}
 	storage = reset_static(storage);
 	if (!storage)
-		return (free(line), NULL);
+		return (ft_reset_error(line));
 	return (line);
 }
